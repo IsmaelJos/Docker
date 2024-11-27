@@ -7,7 +7,7 @@
 ```bash
 docker --version
 ```
-<img src=./images/image.png width="500">
+<img src=./images/image.png width="300">
 
 2. Asegúrate de que ningún servicio en tu máquina está utilizando el puerto 8080 (o el puerto que desees asignar).
 
