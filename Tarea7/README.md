@@ -54,18 +54,7 @@ A continuación, creamos un Dockerfile que instalará Tomcat, MariaDB y CloudBea
         && rm -rf /var/lib/apt/lists/*
 
     # Configurar MariaDB usando la imagen oficial
-    FROM mariadb:10.5
-
-    # Configurar Tomcat usando la imagen oficial
-    FROM tomcat:9.0
-
-    COPY ./sample.war tarea7_volume:/usr/local/tomcat/webapps/
-
-    # Descargar y configurar CloudBeaver utilizando la imagen oficial de CloudBeaver desde Docker Hub
-    FROM dbeaver/cloudbeaver:latest
-
-    # Exponer puertos
-    EXPOSE -p 8080 8081
+    FROM mariadb:latest
 
     # Volúmenes para MariaDB
     VOLUME /var/lib/mysql
@@ -73,6 +62,22 @@ A continuación, creamos un Dockerfile que instalará Tomcat, MariaDB y CloudBea
     # Configuración de MariaDB: Establecer la contraseña root y crear la base de datos (esto es suficiente con las variables de entorno)
     ENV MYSQL_ROOT_PASSWORD=root
     ENV MYSQL_DATABASE=exampledb
+
+    EXPOSE 3306
+
+    # Configurar Tomcat usando la imagen oficial
+    FROM tomcat:latest
+
+    COPY ./sample.war /usr/local/tomcat/webapps/
+
+    EXPOSE 8081
+
+    # Descargar y configurar CloudBeaver utilizando la imagen oficial de CloudBeaver desde Docker Hub
+    FROM dbeaver/cloudbeaver:latest
+
+    # Exponer puertos
+    EXPOSE 8978
+
 
     # Iniciar los servicios de MariaDB, Tomcat y CloudBeaver
     CMD service mysql start && \
